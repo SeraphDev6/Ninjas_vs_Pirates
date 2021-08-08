@@ -1,7 +1,7 @@
 from character import *
 from random import choice
 
-classes={"ninja":Ninja,"nirate":Pirate}
+classes={"ninja":Ninja,"pirate":Pirate}
 
 def new_player():
     name = input("What is your name? > ").capitalize()

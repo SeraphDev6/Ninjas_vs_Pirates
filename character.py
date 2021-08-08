@@ -1,3 +1,4 @@
+from math import ceil
 from move_list import *
 from random import choice
 
@@ -16,13 +17,13 @@ class Character:
         self.enemy=None
         self.enemies_defeated = 0
     def display_health(self):
-        bars=(self.health*10)//self.max_health
+        bars=max(ceil((self.health*10)/self.max_health),0)
         if self.player:
             return ("|"+"#"*bars+"."*(10-bars)+"|")
         else:
             return ("|"+"."*(10-bars)+"#"*bars+"|")
     def increment_turns(self):
-        if self.health > 0:
+        if self.health > 0 and self.enemy.health > 0:
             self.cooldown -= self.speed
             if self.cooldown <= 0:
                 if self.current_move == None:
@@ -30,25 +31,28 @@ class Character:
                 else:
                     getattr(self,self.current_move)()
             else:
-                print(f"{self.name} is preparing {self.current_move},  {self.moves[self.current_move]-self.cooldown}/{self.moves[self.current_move]}")
+                print(f"{self.name} is preparing {self.current_move}, Charged {self.moves[self.current_move]-self.cooldown}/{self.moves[self.current_move]} Energy!")
     def choose_move(self):
-        if self.player:
-            print(f"{self.name} : {self.display_health()} vs {self.enemy.display_health()} : {self.enemy.name}")
-            print("Available Moves:")
-            for move in self.moves:
-                print(move)
-            move_choice=""
-            while move_choice=="":
-                attempt = input("Which move do you want to use?").capitalize()
-                if attempt in self.moves:
-                    move_choice = attempt
-                else:
-                    print("That's not a valid move!")
-            self.current_move=move_choice
-            self.cooldown+=self.moves[move_choice]
-        else:
-            self.current_move=choice(list(self.moves.keys()))
-            self.cooldown += self.moves[self.current_move]
+        if self.enemy.health >0:
+            if self.player:
+                print(f"{self.name} : {self.display_health()} vs {self.enemy.display_health()} : {self.enemy.name}")
+                print("Available Moves:")
+                for move in self.moves:
+                    print(f"{move}, takes {self.moves[move]} energy.")
+
+                move_choice=""
+                while move_choice=="":
+                    attempt = input("Which move do you want to use?").capitalize()
+                    if attempt in self.moves:
+                        move_choice = attempt
+                    else:
+                        print("That's not a valid move!")
+                self.current_move=move_choice
+                self.cooldown+=self.moves[move_choice]
+            else:
+                self.current_move=choice(list(self.moves.keys()))
+                self.cooldown += self.moves[self.current_move]
+        else: self.current_move =None
     def Attack(self):
         damage = self.strength
         self.enemy.health -= damage
