@@ -5,7 +5,6 @@ from random import choice
 class Character:
     def __init__(self,name,strength,speed,health,moves,player):
         self.name=name
-        self.player=player
         self.strength = strength
         self.speed = speed
         self.health = health*5
@@ -39,7 +38,6 @@ class Character:
                 print("Available Moves:")
                 for move in self.moves:
                     print(f"{move}, takes {self.moves[move]} energy.")
-
                 move_choice=""
                 while move_choice=="":
                     attempt = input("Which move do you want to use?").capitalize()
