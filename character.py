@@ -23,7 +23,7 @@ class Character:
         else:
             return ("|"+"."*(10-bars)+"#"*bars+"|")
     def increment_turns(self):
-        if self.health > 0 and self.enemy.health > 0:
+        if self.health > 0:
             self.cooldown -= self.speed
             if self.cooldown <= 0:
                 if self.current_move == None:
