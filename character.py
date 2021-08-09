@@ -50,6 +50,7 @@ class Character:
                 self.current_move=move_choice
                 self.cooldown+=self.moves[move_choice]
             else:
+                print(f"{self.enemy.name} : {self.enemy.display_health()} vs {self.display_health()} : {self.name}")
                 self.current_move=choice(list(self.moves.keys()))
                 self.cooldown += self.moves[self.current_move]
         else: self.current_move =None
@@ -74,7 +75,7 @@ class Ninja(Character):
     def Assasinate(self):
         damage = self.enemy.max_health - self.enemy.health
         self.enemy.health -= damage
-        print(f"{self.name} used thier finishing move: Death Blow of 1000 Demon Deaths. It dealt {damage} damage!")
+        print(f"{self.name} used their finishing move: Death Blow of 1000 Demon Deaths. It dealt {damage} damage!")
         self.choose_move()
     def __str__(self):
         return "Ninja"
@@ -94,7 +95,7 @@ class Pirate(Character):
     def Cannon(self):
         damage = 9999
         self.enemy.health -= damage
-        print(f"{self.name} used thier finishing move: Shoot 'em with a cannon!! It dealt a ridiculous amount damage!")
+        print(f"{self.name} used their finishing move: Shoot 'em with a cannon!! It dealt a ridiculous amount damage!")
         self.choose_move()
     def __str__(self):
         return "Pirate"
